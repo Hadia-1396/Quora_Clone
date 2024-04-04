@@ -4,8 +4,16 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING)],
+  imports: [
+    MongooseModule.forRootAsync({
+      useFactory: async () => ({
+        uri: process.env.MONGODB_CONNECTION_STRING,
+      }),
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {}
+}
