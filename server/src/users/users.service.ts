@@ -10,6 +10,7 @@ export class UsersService {
   constructor(@InjectModel('Users') private userModel: Model<User>) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
+    // const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     const newUser = await new this.userModel(createUserDto);
     return newUser.save();
   }
@@ -41,6 +42,15 @@ export class UsersService {
     }
     return existingUser;
   }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new NotFoundException(`User wih ${email} not found`);
+    }
+    return user;
+  }
+
   async deleteUser(userId: string): Promise<User> {
     const deletedUser = await this.userModel.findByIdAndDelete(userId);
     if (!deletedUser) {

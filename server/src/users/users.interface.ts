@@ -8,4 +8,5 @@ export interface User extends Document {
   email: string;
   username: string;
   profile_picture: string;
+  password: string;
 }
