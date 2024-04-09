@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { AuthDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -41,7 +42,7 @@ export class AuthService {
   async validateUser(dto: AuthDto) {
     const user = await this.usersService.getUserByEmail(dto.username);
 
-    if (user) {
+    if (user && (await compare(dto.password, user.password))) {
       return user;
     }
 
