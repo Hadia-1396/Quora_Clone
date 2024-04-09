@@ -10,6 +10,7 @@ const Auth = () => {
     gender: "",
     username: "",
     profile_picture: "",
+    password: "",
   });
 
   const handleChange = (event: any) => {
@@ -49,7 +50,7 @@ const Auth = () => {
       >
         <Typography variant="h5">Sign In</Typography>
 
-        <TextField
+        {/* <TextField
           id="name"
           label="Name"
           variant="filled"
@@ -72,23 +73,23 @@ const Auth = () => {
           name="gender"
           value={postData.gender}
           onChange={handleChange}
-        />
-        <TextField
+        /> */}
+        {/* <TextField
           id="email"
           label="Email"
           variant="filled"
           name="email"
           value={postData.email}
           onChange={handleChange}
-        />
-        <TextField
+        /> */}
+        {/* <TextField
           id="profile_picture"
           label="Profile Picture"
           variant="filled"
           name="profile_picture"
           value={postData.profile_picture}
           onChange={handleChange}
-        />
+        /> */}
         <TextField
           id="username"
           label="Username"
@@ -97,7 +98,7 @@ const Auth = () => {
           value={postData.username}
           onChange={handleChange}
         />
-        {/* <TextField
+        <TextField
           id="password"
           label="Password"
           variant="filled"
@@ -105,8 +106,8 @@ const Auth = () => {
           name="password"
           value={postData.password}
           onChange={handleChange}
-        /> */}
-        <Button type="submit">Submit</Button>
+        />
+        <Button href="/api/auth/signin">Submit</Button>
       </Grid>
     </form>
   );

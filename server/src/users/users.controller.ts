@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -8,10 +9,12 @@ import {
   Delete,
   Res,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('users')
 export class UsersController {
@@ -52,6 +55,9 @@ export class UsersController {
       return response.status(err.status).json(err.response);
     }
   }
+
+  // to protect it from unauthorized access
+  @UseGuards(JwtGuard)
   @Get()
   async getUsers(@Res() response) {
     try {

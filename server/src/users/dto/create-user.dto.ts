@@ -32,4 +32,8 @@ export class CreateUserDto {
 
   @IsString()
   profile_picture: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
