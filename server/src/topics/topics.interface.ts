@@ -1,8 +1,7 @@
-import { Document } from 'mongoose';
-import { User } from 'src/users/users.interface';
+import { Document, Types } from 'mongoose';
 
 export interface Topic extends Document {
   title: string;
   description: string;
-  user: User;
+  user: Types.ObjectId;
 }

@@ -2,44 +2,95 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useSession } from "next-auth/react";
+import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/navigation";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Home() {
   const [topicsData, setTopicsData] = useState([]);
+  const router = useRouter();
 
   const { data: session } = useSession();
 
+  const fetchData = async () => {
+    const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "topics", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${session?.backendTokens.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const { topicsData } = await response.json();
+    setTopicsData(topicsData);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
+    fetchData();
+  }, [session?.backendTokens]);
+
+  const handleDelete = async (id: string) => {
+    try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "topics",
+        process.env.NEXT_PUBLIC_BASE_URL + `topics/${id}`,
         {
-          method: "GET",
+          method: "DELETE",
           headers: {
             authorization: `Bearer ${session?.backendTokens.accessToken}`,
             "Content-Type": "application/json",
           },
         }
       );
-      const { topicsData } = await response.json();
-      setTopicsData(topicsData);
-    };
-    fetchData();
-  }, []);
+      console.warn("response: ", response);
+      fetchData();
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  };
 
   return (
     <>
       <Navbar />
-      <div className="text-center text-blue-600/100">
-        <h1>Quora Clone</h1>
-        {topicsData?.map((topic: any, index: number) => (
-          <>
-            <p>
-              <strong>username: </strong> {topic.user?.username}
-            </p>
-            <h2 key={index}>{topic.title}</h2>
-            <p>{topic.description}</p>
-          </>
-        ))}
+      <div className="container mx-auto">
+        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center p-4">
+          Quora Clone
+        </h1>
+        <div className="flex justify-end mb-4">
+          <AddIcon
+            fontSize="large"
+            onClick={() => router.push("/create-topic")}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {topicsData?.map((topic: any, index: number) => (
+            <div key={index}>
+              <a className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {topic?.title}
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400">
+                  {topic?.description}
+                </p>
+                <div className="flex justify-end mt-1">
+                  {session?.user?._id === topic?.user._id && (
+                    <>
+                      <EditIcon
+                        className="text-blue-500 me-3"
+                        onClick={() =>
+                          router.push(`/create-topic/${topic._id}`)
+                        }
+                      />
+                      <DeleteIcon
+                        className="text-red-700"
+                        onClick={() => handleDelete(topic._id)}
+                      />
+                    </>
+                  )}
+                </div>
+              </a>{" "}
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
