@@ -51,8 +51,8 @@ export class UsersService {
     return existingUser;
   }
 
-  async getUserByEmail(username: string): Promise<User> {
-    const user = await this.userModel.findOne({ username });
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email });
     if (!user) {
       throw new UnauthorizedException();
     }
