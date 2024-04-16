@@ -40,7 +40,7 @@ export class AuthService {
 
   // validate the user if it exists with the email
   async validateUser(dto: AuthDto) {
-    const user = await this.usersService.getUserByEmail(dto.username);
+    const user = await this.usersService.getUserByEmail(dto.email);
 
     if (user && (await compare(dto.password, user.password))) {
       return user;
