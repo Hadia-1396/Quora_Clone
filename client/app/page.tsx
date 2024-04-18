@@ -6,6 +6,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ProtectedRoute from "../components/ProtectedRoute";
+import Image from "next/image";
 
 export default function Home() {
   const [topicsData, setTopicsData] = useState([]);
@@ -49,7 +51,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <Navbar />
       <div className="container mx-auto">
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center p-4">
@@ -65,6 +67,18 @@ export default function Home() {
           {topicsData?.map((topic: any, index: number) => (
             <div key={index}>
               <a className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div className="flex items-center mb-4">
+                  <Image
+                    className="w-10 h-10 rounded-full"
+                    src={topic?.user?.profile_picture}
+                    alt="Rounded avatar"
+                    width={20}
+                    height={20}
+                  />
+                  <h3 className=" ml-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {topic?.user?.username}
+                  </h3>
+                </div>
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   {topic?.title}
                 </h5>
@@ -92,6 +106,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }

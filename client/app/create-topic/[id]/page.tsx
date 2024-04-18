@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
+import ProtectedRoute from "../../../components/ProtectedRoute";
 
 const UpdatePage = ({ params }: { params: { id: string } }) => {
   const [data, setData] = useState({
@@ -64,7 +65,7 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <Navbar />
       <form className="max-w-sm mx-auto mt-5" onSubmit={handleSubmit}>
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center p-4">
@@ -111,7 +112,7 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
           Submit
         </button>
       </form>
-    </>
+    </ProtectedRoute>
   );
 };
 
