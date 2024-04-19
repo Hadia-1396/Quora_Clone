@@ -14,7 +14,7 @@ jobs:
       - name: Install dependencies and build Next.js
         run: |
           cd client
-          npm install
+          npm install --force
           npm run build
       # Additional steps for deploying Next.js go here
 
