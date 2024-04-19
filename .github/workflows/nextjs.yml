@@ -31,4 +31,4 @@ jobs:
         run: npm install --save-dev @nestjs/cli
 
       - name: Start Nest.js server
-        run: nest start
+        run: npx nest start
