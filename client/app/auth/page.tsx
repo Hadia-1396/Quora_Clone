@@ -101,7 +101,7 @@ const Auth = () => {
     }
   };
 
-  const handleToChange = (tab) => {
+  const handleToChange = (tab: string) => {
     setActiveTab(tab);
   };
 
