@@ -29,5 +29,5 @@ jobs:
           npm install
           # Any additional build steps
       - name: Start Nest.js server
-        run: npm start
+        run: nest start
       # Additional steps for deploying Nest.js go here
