@@ -27,7 +27,8 @@ jobs:
         run: |
           cd server
           npm install
-          # Any additional build steps
+      - name: Install Nest.js CLI
+        run: npm install --save-dev @nestjs/cli
+
       - name: Start Nest.js server
         run: nest start
-      # Additional steps for deploying Nest.js go here
